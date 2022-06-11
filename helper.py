@@ -1,11 +1,16 @@
 import csv
+import json
 
 class VideoData:
-  def __init__(self, id, description, thumbnail, genre):
+  def __init__(self, id, description, thumbnail, title, genre):
     self.id = id
     self.genre = genre
     self.thumbnail = thumbnail
     self.description = description
+    self.title = title
+
+  def toJSON(self):
+    return json.dumps(self, default=lambda o: o.__dict__, sort_keys=True, indent=2)
 
 VideoArray = []
 
@@ -13,14 +18,14 @@ with open('data.csv', encoding="utf-8") as csv_file:
   csv_reader = csv.reader(csv_file, delimiter=';')
   line_count = 0
   for row in csv_reader:
-    if line_count == 0:
-      line_count += 1
-    else:
-      tempVidData = VideoData(row[0], row[1], row[2], row[3])
-      VideoArray.append(tempVidData)
+    tempVidData = VideoData(row[0], row[1], row[2], row[3], row[4])
+    VideoArray.append(tempVidData)
 
 def getGenre(id):
   return VideoArray[id-1].genre
+
+def getID(id):
+  return VideoArray[id-1].id
 
 def genreSplice(genre):
   x = genre.split("|")
@@ -49,9 +54,21 @@ def genreConcat(array):
   for element in array:
     x = genreSplice(getGenre(element))
     returnValue += x
+
+  returnValue.append([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
   return genretoInt(returnValue[:20])
 
-# inputArray = [1, 2, 3, 4, 5]
-# outputArray = genreConcat(inputArray)
+def getDetails(array):
+  str = "["
+  i = 0
+  for element in array:
+    if i != 0:
+      str += ","
+    str += VideoArray[element-1].toJSON()
+    i += 1
+  str += "]" 
+  return str
 
-# print(outputArray)
+# inputArray = [1, 2, 3, 4, 5]
+
+# print(getDetails(inputArray))

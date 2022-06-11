@@ -1,7 +1,7 @@
 from uuid import uuid4
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 from models import *
-from helper import genreConcat
+from helper import genreConcat, getDetails
 import tensorflow as tf
 import json
 """
@@ -57,29 +57,57 @@ def model_info():
         "output": model.output_details \
     })
 
+@app.post("/api/v1/genre")
+def getvideo(data:Genre):
+  ids = tf.constant([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+  switcher = {
+    "Kuliner": 2,
+    "Homecare": 3,
+    "Healthcare": 4,
+    "Tutorial": 1,
+    "Ecommerce": 5,
+    "Marketing": 7,
+    "Review": 6
+  }
+  genre = switcher.get(data.genre, 0)
+  genres = []
+
+  for i in range(20):
+    genres.append(genre)
+
+  genreTensor = tf.constant(genres)
+  interpreter.set_tensor(indices[names[0]], ids)
+  interpreter.set_tensor(indices[names[1]], genreTensor)
+
+  # Run inference
+  interpreter.invoke()
+
+  top_prediction_scores = interpreter.get_tensor(model.output_details[1]['index'])
+
+  return Response(content=getDetails(top_prediction_scores), media_type="application/json")
 
 @app.post("/api/v1/inference")
 def inference(data:Datas):
-    print(data)
-    ids = tf.constant(data.ids)
-    genreData = genreConcat(data.ids)
-    print(ids)
-    interpreter.set_tensor(indices[names[0]], ids)
-    genres = tf.constant(genreData)
-    print(genres)
-    interpreter.set_tensor(indices[names[1]], genres)
-    # ratings = tf.constant(data.ratings)
-    # interpreter.set_tensor(indices[names[2]], ratings)
+  print(data)
+  ids = tf.constant(data.ids)
+  genreData = genreConcat(data.ids)
+  print(ids)
+  interpreter.set_tensor(indices[names[0]], ids)
+  genres = tf.constant(genreData)
+  print(genres)
+  interpreter.set_tensor(indices[names[1]], genres)
+  # ratings = tf.constant(data.ratings)
+  # interpreter.set_tensor(indices[names[2]], ratings)
 
-    # Run inference.
-    interpreter.invoke()
-    # # Get outputs.
-    top_prediction_ids = interpreter.get_tensor(model.output_details[0]['index'])
-    top_prediction_scores = interpreter.get_tensor(model.output_details[1]['index'])
-    print('Predicted results:')
-    # print('Top ids: {}'.format(top_prediction_ids))
-    print('Top scores: {}'.format(top_prediction_scores))
-    return 'List rekomendasi: {}'.format(top_prediction_scores)
+  # Run inference.
+  interpreter.invoke()
+  # # Get outputs.
+  top_prediction_ids = interpreter.get_tensor(model.output_details[0]['index'])
+  top_prediction_scores = interpreter.get_tensor(model.output_details[1]['index'])
+  print('Predicted results:')
+  # print('Top ids: {}'.format(top_prediction_ids))
+  print('Top scores: {}'.format(top_prediction_scores))
+  return Response(content=getDetails(top_prediction_scores), media_type="application/json")
 
 
 # @app.delete("/api/v1/users/{user_id}")
