@@ -1,9 +1,10 @@
 from uuid import uuid4
 from fastapi import FastAPI, Response
 from models import *
-from helper import genreConcat, getDetails
+from helper import genreConcat, getDetails, genreFilter
 import tensorflow as tf
 import json
+from datetime import datetime
 """
 {
   "user_request": [
@@ -59,7 +60,6 @@ def model_info():
 
 @app.post("/api/v1/genre")
 def getvideo(data:Genre):
-  ids = tf.constant([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
   switcher = {
     "Kuliner": 2,
     "Homecare": 3,
@@ -70,21 +70,10 @@ def getvideo(data:Genre):
     "Review": 6
   }
   genre = switcher.get(data.genre, 0)
-  genres = []
+  resdata = genreFilter(genre)
+  print(resdata)
 
-  for i in range(20):
-    genres.append(genre)
-
-  genreTensor = tf.constant(genres)
-  interpreter.set_tensor(indices[names[0]], ids)
-  interpreter.set_tensor(indices[names[1]], genreTensor)
-
-  # Run inference
-  interpreter.invoke()
-
-  top_prediction_scores = interpreter.get_tensor(model.output_details[1]['index'])
-
-  return Response(content=getDetails(top_prediction_scores), media_type="application/json")
+  return Response(content=getDetails(resdata[:10]), media_type="application/json")
 
 @app.post("/api/v1/inference")
 def inference(data:Datas):

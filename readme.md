@@ -39,4 +39,39 @@ API for recommending videos based on watch history of a user
 ]
 ```
 
+### Get Recommendation Based on Genre
+
+#### Route
+```http
+  POST /api/v1/genre
+```
+#### Request Example
+```json
+{
+  "genre": "Healthcare"
+}
+```
+#### Response Example
+```json
+[
+    {
+        "description": "selamat datang di channel top produk masker beneran full face nih Produk unik #SHORTS #tiktok #unik #gadgets #china ...",
+        "genre": "Healthcare|Review",
+        "id": "4F1Bz-Jr9ec",
+        "noID": 129,
+        "thumbnail": "https://i.ytimg.com/vi/4F1Bz-Jr9ec/mqdefault.jpg",
+        "title": "masker beneran full face nih Produk unik #SHORTS #tiktok #unik #gadgets #china (2021)"
+    },
+    {
+        "description": "dropshipper #suppliertanganpertama #caramencarisupplier #bisnisonline #shopee #ideusaha #dropship #reseller #carajualan ...",
+        "genre": "Kuliner|Homecare|Healthcare|Tutorial|Ecommerce",
+        "id": "1iFTX5l7KYU",
+        "noID": 195,
+        "thumbnail": "https://i.ytimg.com/vi/1iFTX5l7KYU/mqdefault.jpg",
+        "title": "Cara Mencari Supplier Tangan Pertama Di Shopee 2022 - Bisnis Modal Kecil Untung Besar - Ide Usaha (2021)"
+    },
+  ...
+]
+```
+
 
