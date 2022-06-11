@@ -1,6 +1,7 @@
 from uuid import uuid4
 from fastapi import FastAPI
 from models import *
+from helper import genreConcat
 import tensorflow as tf
 import json
 """
@@ -61,12 +62,14 @@ def model_info():
 def inference(data:Datas):
     print(data)
     ids = tf.constant(data.ids)
+    genreData = genreConcat(data.ids)
     print(ids)
     interpreter.set_tensor(indices[names[0]], ids)
-    genres = tf.constant(data.genres)
+    genres = tf.constant(genreData)
+    print(genres)
     interpreter.set_tensor(indices[names[1]], genres)
-    ratings = tf.constant(data.ratings)
-    interpreter.set_tensor(indices[names[2]], ratings)
+    # ratings = tf.constant(data.ratings)
+    # interpreter.set_tensor(indices[names[2]], ratings)
 
     # Run inference.
     interpreter.invoke()

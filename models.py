@@ -6,8 +6,6 @@ from typing import Optional, List
 class Datas(BaseModel):
     user_request: List
     ids: List
-    genres: List
-    ratings: List
 
 class Model(BaseModel):
     input_details: List
