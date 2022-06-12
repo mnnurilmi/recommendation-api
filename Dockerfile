@@ -10,6 +10,8 @@ COPY ./main.py /code/main.py
 
 COPY ./model.tflite /code/model.tflite
 
+COPY ./helper.py /code/helper.py
+
 COPY models.py /code/models.py
 
 COPY ./data.csv /code/data.csv
