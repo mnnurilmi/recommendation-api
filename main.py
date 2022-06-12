@@ -1,5 +1,5 @@
 from uuid import uuid4
-from fastapi import FastAPI
+from fastapi import FastAPI, Form
 from fastapi.responses import RedirectResponse, JSONResponse, Response
 from models import *
 import tensorflow as tf
@@ -282,18 +282,18 @@ def model_info():
   /api/v1/genre
 """
 @app.post("/api/v1/genre")
-def getvideo(data:Genre):
+def getvideo(genre: str = Form()):
   switcher = {
     "Kuliner": 2,
-    "Homecare": 3,
-    "Healthcare": 4,
+    "Rumah Tangga": 3,
+    "Kesehatan": 4,
     "Tutorial": 1,
     "Ecommerce": 5,
     "Marketing": 7,
     "Review": 6
   }
-  genre = switcher.get(data.genre, 0)
-  resdata = genreFilter(genre)
+  intGenre = switcher.get(genre, 0)
+  resdata = genreFilter(intGenre)
   print(resdata)
 
   return Response(content=getDetails(resdata[:10]), media_type="application/json")
