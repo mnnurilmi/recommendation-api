@@ -61,11 +61,18 @@ def genretoInt(array):
     
 
 def genreConcat(array):
-  returnValue = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+  returnValue = []
   for element in array:
     returnValue.extend(genreSplice(getGenre(element)))
   len_genre = (len(returnValue))
-  return genretoInt(returnValue[:20])
+  print(len_genre)
+
+  
+  if len_genre < 20:
+    for i in range(len_genre,20):
+      returnValue.append("UNK")
+  print(returnValue)
+  return genretoInt(returnValue[:21])
 
 def getDetails(array):
   datas = []
