@@ -4,44 +4,6 @@ from fastapi.responses import RedirectResponse, JSONResponse, Response
 from models import *
 import tensorflow as tf
 import pandas as pd
-from helper import genreConcat, getDetails
-
-# import pyrebase
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
-import pandas as pd
-import json
-
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.metrics.pairwise import cosine_similarity as cs
-from nltk.stem.porter import PorterStemmer
-import warnings
-warnings.filterwarnings("ignore")
-
-"""
-{
-  "user_request": [
-    "string"
-  ],
-  "ids": [
-    1,2,3,4,5,6,7,8,9,10
-  ],
-  "genres": [
-    0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19
-  ],
-  "ratings": [
-    1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0
-  ]
-}
-
-"""
-from uuid import uuid4
-from fastapi import FastAPI
-from fastapi.responses import RedirectResponse, JSONResponse, Response
-from models import *
-import tensorflow as tf
-import pandas as pd
 from helper import genreConcat, getDetails, genreFilter
 
 # import pyrebase
