@@ -281,6 +281,23 @@ def model_info():
   API ROUTE
   /api/v1/genre
 """
+@app.post("/api/v1/genreJSON")
+def getvideo(data:Genre):
+  switcher = {
+    "Kuliner": 2,
+    "Homecare": 3,
+    "Healthcare": 4,
+    "Tutorial": 1,
+    "Ecommerce": 5,
+    "Marketing": 7,
+    "Review": 6
+  }
+  genre = switcher.get(data.genre, 0)
+  resdata = genreFilter(genre)
+  print(resdata)
+
+  return Response(content=getDetails(resdata[:10]), media_type="application/json")
+
 @app.post("/api/v1/genre")
 def getvideo(genre: str = Form()):
   switcher = {
@@ -302,13 +319,40 @@ def getvideo(genre: str = Form()):
   API ROUTE
   /api/v1/inference
 """
-@app.post("/api/v1/inference")
+@app.post("/api/v1/inferenceJSON")
 def inference(data:Datas):
   print(data)
   ids = tf.constant(data.ids)
   genreData = genreConcat(data.ids)
   print(ids)
   interpreter.set_tensor(indices[names[0]], ids)
+  genres = tf.constant(genreData)
+  print(genres)
+  interpreter.set_tensor(indices[names[1]], genres)
+  # ratings = tf.constant(data.ratings)
+  # interpreter.set_tensor(indices[names[2]], ratings)
+
+  # Run inference.
+  interpreter.invoke()
+  # # Get outputs.
+  top_prediction_ids = interpreter.get_tensor(model.output_details[0]['index'])
+  top_prediction_scores = interpreter.get_tensor(model.output_details[1]['index'])
+  print('Predicted results:')
+  # print('Top ids: {}'.format(top_prediction_ids))
+  print('Top scores: {}'.format(top_prediction_scores))
+  return Response(content=getDetails(top_prediction_scores), media_type="application/json")
+
+@app.post("/api/v1/inference")
+def inference(ids: str = Form()):
+  x = ids[1: -1].split(",")
+  idArray = []
+  for i in x:
+    idArray.append(int(i))
+  
+  idTensor = tf.constant(idArray)
+  genreData = genreConcat(idArray)
+  print(ids)
+  interpreter.set_tensor(indices[names[0]], idTensor)
   genres = tf.constant(genreData)
   print(genres)
   interpreter.set_tensor(indices[names[1]], genres)
