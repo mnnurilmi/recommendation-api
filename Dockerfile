@@ -12,7 +12,7 @@ COPY ./model.tflite /code/model.tflite
 
 COPY models.py /code/models.py
 
-COPY ./umkm.csv /code/umkm.csv
+COPY ./data.csv /code/data.csv
 
 COPY ./BUMI_users_data_v2.csv /code/BUMI_users_data_v2.csv
 
