@@ -374,7 +374,7 @@ def inference(ids: str = Form()):
   /api/v1/bRecommendation
 """
 @app.post("/api/v1/bRecommendation")
-def bRecommendation(data: dataBRecommender):
+def bRecommendation(user_id: str = Form()):
 	global new_df,df, users
 	returnData = {}
 	# print(data.user_id)
@@ -384,6 +384,6 @@ def bRecommendation(data: dataBRecommender):
 	# print((deserved_users))
 	# print("Pilih salah 1 dari user ini")
 	# print(deserved_users)
-	returnData = getRecommendation(data.user_id, deserved_users, 3)
+	returnData = getRecommendation(user_id, deserved_users, 3)
 
 	return JSONResponse(content=returnData)
