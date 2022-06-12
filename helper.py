@@ -52,7 +52,7 @@ def genretoInt(array):
   returnValue = []
 
   for element in array:
-    returnValue.append(switcher.get(element, 0))
+    returnValue.append(switcher.get(element))
 
   return returnValue
     
@@ -79,7 +79,7 @@ def getDetails(array):
   for e in array:
     datas.append(VideoArray[e-1])
   # print(VideoArray[e-1].toJSON())
-  return str, datas
+  return datas
 
 def sortArray(array):
   for i in range(len(array)):
