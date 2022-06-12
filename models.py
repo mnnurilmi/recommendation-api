@@ -15,3 +15,6 @@ class Model(BaseModel):
 
 class Genre(BaseModel):
   genre: str
+
+class dataBRecommender(BaseModel):
+  user_id: str

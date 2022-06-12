@@ -103,4 +103,4 @@ def getDates(array):
   for element in array:
     print(VideoArray[element - 1].uploadTime)
 
-print(genreFilter(4))
+# print(genreFilter(4))
