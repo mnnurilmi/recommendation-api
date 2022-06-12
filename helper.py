@@ -67,15 +67,19 @@ def genreConcat(array):
   return genretoInt(returnValue[:20])
 
 def getDetails(array):
-  str = "["
-  i = 0
-  for element in array:
-    if i != 0:
-      str += ","
-    str += VideoArray[element-1].toJSON()
-    i += 1
-  str += "]" 
-  return str
+  datas = []
+  # str = "["
+  # i = 0
+  # for element in array:
+  #   if i != 0:
+  #     str += ","
+  #   str += VideoArray[element-1].toJSON()
+  #   i += 1
+  # str += "]" 
+  for e in array:
+    datas.append(VideoArray[e-1])
+  # print(VideoArray[e-1].toJSON())
+  return str, datas
 
 def sortArray(array):
   for i in range(len(array)):

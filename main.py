@@ -300,6 +300,10 @@ def getvideo(data:Genre):
 
 @app.post("/api/v1/genre")
 def getvideo(genre: str = Form()):
+  returnData ={
+    "listVideos": []
+  }
+
   switcher = {
     "Kuliner": 2,
     "Rumah Tangga": 3,
@@ -311,9 +315,21 @@ def getvideo(genre: str = Form()):
   }
   intGenre = switcher.get(genre, 0)
   resdata = genreFilter(intGenre)
-  print(resdata)
-
-  return Response(content=getDetails(resdata[:10]), media_type="application/json")
+  # print(resdata)
+  a, datas = getDetails(resdata[:10])
+  print((datas[0].id))
+  for d in datas:
+    returnData["listVideos"].append({
+      "id": d.id,
+      "genre": d.genre,
+      "thumbnail": d.thumbnail,
+      "description": d.description,
+      "title": d.title,
+      "noID": d.noID,
+    })
+  print(type(returnData))
+  return JSONResponse(content = returnData)
+  # return Response(content=getDetails(resdata[:10]), media_type="application/json")
 
 """
   API ROUTE
