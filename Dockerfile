@@ -18,4 +18,4 @@ COPY ./BUMI_users_data_v2.csv /code/BUMI_users_data_v2.csv
 
 COPY ./bumi-api-4e903-firebase-adminsdk-75pgu-b7278330a6.json /code/bumi-api-4e903-firebase-adminsdk-75pgu-b7278330a6.json
 
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "$PORT"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
