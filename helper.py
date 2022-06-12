@@ -1,7 +1,10 @@
 import csv
 import json
 from datetime import datetime
+"""
+# JPeZlL4HJfU,HcyeaHxtVpg,UNK,UNK,UNK,UNK,UNK,UNK,UNK,UNK
 
+"""
 class VideoData:
   def __init__(self, id, description, thumbnail, title, genre, noID):
     self.id = id
@@ -52,18 +55,16 @@ def genretoInt(array):
   returnValue = []
 
   for element in array:
-    returnValue.append(switcher.get(element))
+    returnValue.append(switcher.get(element,0))
 
   return returnValue
     
 
 def genreConcat(array):
-  returnValue = []
+  returnValue = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
   for element in array:
-    x = genreSplice(getGenre(element))
-    returnValue += x
-
-  returnValue.append([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0])
+    returnValue.extend(genreSplice(getGenre(element)))
+  len_genre = (len(returnValue))
   return genretoInt(returnValue[:20])
 
 def getDetails(array):

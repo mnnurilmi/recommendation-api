@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse, JSONResponse, Response
 from models import *
 import tensorflow as tf
 import pandas as pd
-from helper import genreConcat, getDetails, genreFilter
+from helper import *
 
 # import pyrebase
 import firebase_admin
@@ -366,6 +366,7 @@ def inference(ids: str = Form()):
   print(ids)
   idArray = ids.split(",")
   idArray = [int(x) for x in idArray]
+  print([genreSplice(getGenre(x)) for x in idArray])
   # for i in x:
   #   idArray.append(int(i))
   # print(type(idArray[0]))
