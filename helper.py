@@ -72,7 +72,7 @@ def genreConcat(array):
     for i in range(len_genre,20):
       returnValue.append("UNK")
   print(returnValue)
-  return genretoInt(returnValue[:21])
+  return genretoInt(returnValue[:20])
 
 def getDetails(array):
   datas = []
